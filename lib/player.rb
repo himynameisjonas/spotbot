@@ -60,7 +60,6 @@ class Spotbot::Player
       end_of_track: proc do |session|
         $end_of_track = true
         Support.logger.debug("session (player)") { "end of track" }
-        Support.logger.info("session (player)") { "track queue" }
         if track = queue.next
           Support.logger.info("session (player) track") { track }
           play_track(track)
@@ -85,9 +84,8 @@ class Spotbot::Player
       play_track(track)
     end
 
-    Support.logger.info "Playing track until end. Use ^C to exit."
     EM.defer do
-      Support.poll(session) { false }
+      Support.poll(session) { }
     end
   end
 

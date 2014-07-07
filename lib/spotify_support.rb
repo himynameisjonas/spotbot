@@ -23,16 +23,11 @@ module Support
     $logger
   end
 
-  class << self
-    attr_accessor :silenced
-  end
-
   # libspotify supports callbacks, but they are not useful for waiting on
   # operations (how they fire can be strange at times, and sometimes they
   # might not fire at all). As a result, polling is the way to go.
   def poll(session, idle_time = 0.05)
     until yield
-      print "." unless silenced
       process_events(session)
       sleep(idle_time)
     end
@@ -66,7 +61,6 @@ module Support
       Spotify.session_logout(session)
       Support.poll(session) { Spotify.session_connectionstate(session) != :logged_in }
     end
-
     session
   end
 end
