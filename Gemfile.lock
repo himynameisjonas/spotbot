@@ -1,0 +1,36 @@
+GIT
+  remote: https://github.com/Burgestrand/spotify.git
+  revision: 5115d1c2c674a89a7cc883b2b4cc28cdb344267c
+  specs:
+    spotify (12.5.3)
+      ffi (~> 1.0, >= 1.0.11)
+      libspotify (~> 12.1.51)
+      performer (~> 1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coderay (1.1.0)
+    ffi (1.9.3)
+    libspotify (12.1.51.4)
+    method_source (0.8.2)
+    performer (1.0.1)
+    plaything (1.1.1)
+      ffi (~> 1.1)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    redis (3.1.0)
+    redis-namespace (1.5.0)
+      redis (~> 3.0, >= 3.0.4)
+    slop (3.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  plaything
+  pry
+  redis-namespace
+  spotify!
