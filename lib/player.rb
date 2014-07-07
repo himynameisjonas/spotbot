@@ -5,6 +5,56 @@ class Spotbot::Player
   attr_accessor :current_track
   attr_reader :queue, :plaything, :session, :support, :logger
 
+  def initialize(queue, logger)
+    @queue = queue
+    @logger = logger
+    @plaything = Plaything.new
+  end
+
+  def run
+    @support = Spotbot::SpotifySupport.instance
+    Spotbot::SpotifySupport::DEFAULT_CONFIG[:callbacks] = Spotify::SessionCallbacks.new(session_callbacks)
+
+    @session = support.initialize_spotify!
+
+    play_next
+
+    EM.defer do
+      support.poll { } # keep the player running
+    end
+  end
+
+  def play
+    play_next unless current_track
+    Spotify.try(:session_player_play, session, true)
+  end
+
+  def pause
+    Spotify.try(:session_player_play, session, false)
+  end
+
+  def play_next
+    if track = queue.next
+      play_track(track)
+    end
+  end
+
+  private
+
+  def play_track(uri)
+    logger.info("play_track") { uri }
+
+    link = Spotify.link_create_from_string(uri)
+    track = Spotify.link_as_track(link)
+    support.poll { Spotify.track_is_loaded(track) }
+    current_track = track
+
+    # Pause before we load a new track. Fixes a quirk in libspotify.
+    Spotify.try(:session_player_play, session, false)
+    Spotify.try(:session_player_load, session, track)
+    Spotify.try(:session_player_play, session, true)
+  end
+
   def session_callbacks
     @session_callbacks ||= {
       log_message: proc do |session, message|
@@ -63,53 +113,5 @@ class Spotbot::Player
         end
       end,
     }
-  end
-
-  def initialize(queue, logger)
-    @queue = queue
-    @logger = logger
-    @plaything = Plaything.new
-  end
-
-  def run
-    @support = Spotbot::SpotifySupport.instance
-    Spotbot::SpotifySupport::DEFAULT_CONFIG[:callbacks] = Spotify::SessionCallbacks.new(session_callbacks)
-
-    @session = support.initialize_spotify!
-
-    play_next
-
-    EM.defer do
-      support.poll { } # keep the player running
-    end
-  end
-
-  def play
-    play_next unless current_track
-    Spotify.try(:session_player_play, session, true)
-  end
-
-  def pause
-    Spotify.try(:session_player_play, session, false)
-  end
-
-  def play_next
-    if track = queue.next
-      play_track(track)
-    end
-  end
-
-  def play_track(uri)
-    logger.info("play_track") { uri }
-
-    link = Spotify.link_create_from_string(uri)
-    track = Spotify.link_as_track(link)
-    support.poll { Spotify.track_is_loaded(track) }
-    current_track = track
-
-    # Pause before we load a new track. Fixes a quirk in libspotify.
-    Spotify.try(:session_player_play, session, false)
-    Spotify.try(:session_player_load, session, track)
-    Spotify.try(:session_player_play, session, true)
   end
 end
