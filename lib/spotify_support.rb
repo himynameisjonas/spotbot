@@ -1,14 +1,13 @@
 require "spotify"
-require "logger"
 require "pry"
 require "io/console"
-
-# Kill main thread if any other thread dies.
-Thread.abort_on_exception = true
+require "singleton"
 
 
-module Support
-  module_function
+class Spotbot::SpotifySupport
+  include Singleton
+
+  attr_reader :session
 
   DEFAULT_CONFIG = {
     api_version: Spotify::API_VERSION.to_i,
@@ -26,7 +25,7 @@ module Support
   # libspotify supports callbacks, but they are not useful for waiting on
   # operations (how they fire can be strange at times, and sometimes they
   # might not fire at all). As a result, polling is the way to go.
-  def poll(session, idle_time = 0.05)
+  def poll(idle_time = 0.05)
     until yield
       process_events(session)
       sleep(idle_time)
@@ -39,28 +38,28 @@ module Support
   end
 
   def initialize_spotify!(config = DEFAULT_CONFIG)
-    error, session = Spotify.session_create(config)
+    error, @session = Spotify.session_create(config)
     raise Spotify::Error.new(error) if error
 
-    if username = Spotify.session_remembered_user(session)
+    if username = Spotify.session_remembered_user(@session)
       logger.info "Using remembered login for: #{username}."
-      Spotify.try(:session_relogin, session)
+      Spotify.try(:session_relogin, @session)
     else
       username = prompt("Spotify username, or Facebook e-mail")
       password = $stdin.noecho { prompt("Spotify password, or Facebook password") }
 
       logger.info "Attempting login with #{username}."
-      Spotify.try(:session_login, session, username, password, true, nil)
+      Spotify.try(:session_login, @session, username, password, true, nil)
     end
 
     logger.info "Log in requested. Waiting forever until logged in."
-    Support.poll(session) { Spotify.session_connectionstate(session) == :logged_in }
+    poll { Spotify.session_connectionstate(@session) == :logged_in }
 
     at_exit do
       logger.info "Logging out."
-      Spotify.session_logout(session)
-      Support.poll(session) { Spotify.session_connectionstate(session) != :logged_in }
+      Spotify.session_logout(@session)
+      poll { Spotify.session_connectionstate(@session) != :logged_in }
     end
-    session
+    @session
   end
 end

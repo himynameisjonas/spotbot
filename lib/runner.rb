@@ -1,10 +1,6 @@
 require 'eventmachine'
 require 'thin'
 
-require_relative "player"
-require_relative "track_queue"
-require_relative "web"
-
 class Spotbot::Runner
 
   # We use a logger to print some information on when things are happening.
@@ -21,13 +17,13 @@ class Spotbot::Runner
   end
 
   def self.run
-    queue = TrackQueue.new
+    queue = Spotbot::Queue.new
     EM.schedule do
       trap("INT") { EM.stop }
     end
 
     EM.run do
-      Spotbot::Player.new(queue).run
+      Spotbot::Player.new(queue, $logger).run
       Thin::Server.start Spotbot::Web.new(queue), '0.0.0.0', 3000
     end
   end

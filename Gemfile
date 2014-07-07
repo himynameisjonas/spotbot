@@ -8,6 +8,7 @@ gem 'redis-namespace'
 
 gem 'eventmachine'
 gem 'sinatra'
+gem 'sinatra-contrib'
 gem 'thin'
 
 gem "pry"

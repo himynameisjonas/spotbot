@@ -1,20 +1,36 @@
 require 'sinatra'
+require "sinatra/json"
+require "sinatra/namespace"
 
 class Spotbot::Web < Sinatra::Base
+  helpers Sinatra::JSON
+  register Sinatra::Namespace
+
   attr_reader :queue
+
   def initialize(queue)
     @queue = queue
     super
   end
 
-  get '/queue' do
-    queue.all.to_json
+  before do
+    content_type 'application/json'
   end
 
+  namespace '/queue' do
+    get '/tracks' do
+      json queue.all.map(&:as_json)
+    end
 
-  get '/add' do
-    queue.add "spotify:track:4pT1Ynb6upuZWqDowvW9sB"
-    queue.add "spotify:track:65ntj1o59qVq939R5PzrMX"
+    post '/tracks' do
+      track = queue.add(params[:uri])
+      json track.as_json
+    end
+
+    delete '' do
+      queue.clear
+      json []
+    end
   end
 
   get "/favicon.ico" do
