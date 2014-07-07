@@ -6,23 +6,6 @@ require "io/console"
 # Kill main thread if any other thread dies.
 Thread.abort_on_exception = true
 
-# We use a logger to print some information on when things are happening.
-$stderr.sync = true
-$logger = Logger.new($stderr)
-$logger.level = Logger::INFO
-$logger.formatter = proc do |severity, datetime, progname, msg|
-  progname = if progname
-    " (#{progname}) "
-  else
-    " "
-  end
-  "\n[#{severity} @ #{datetime.strftime("%H:%M:%S")}]#{progname}#{msg}"
-end
-
-#
-# Some utility.
-#
-
 
 module Support
   module_function

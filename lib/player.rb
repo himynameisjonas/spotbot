@@ -7,7 +7,7 @@ require_relative "frame_reader"
 require "json"
 require "plaything"
 
-class Player
+class Spotbot::Player
   attr_reader :queue, :plaything, :session
 
   def session_callbacks
@@ -80,13 +80,15 @@ class Player
     Support::DEFAULT_CONFIG[:callbacks] = Spotify::SessionCallbacks.new(session_callbacks)
 
     @session = Support.initialize_spotify!
-    queue.add "spotify:track:4pT1Ynb6upuZWqDowvW9sB"
-    queue.add "spotify:track:65ntj1o59qVq939R5PzrMX"
 
-    play_track(queue.next)
+    if track = queue.next
+      play_track(track)
+    end
 
     Support.logger.info "Playing track until end. Use ^C to exit."
-    Support.poll(session) { false }
+    EM.defer do
+      Support.poll(session) { false }
+    end
   end
 
   def play_track(uri)

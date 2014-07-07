@@ -6,5 +6,9 @@ gem "plaything"
 
 gem 'redis-namespace'
 
+gem 'eventmachine'
+gem 'sinatra'
+gem 'thin'
+
 gem "pry"
 
