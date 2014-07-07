@@ -18,13 +18,15 @@ class Spotbot::Runner
 
   def self.run
     queue = Spotbot::Queue.new
+
     EM.schedule do
       trap("INT") { EM.stop }
     end
 
     EM.run do
-      Spotbot::Player.new(queue, $logger).run
-      Thin::Server.start Spotbot::Web.new(queue), '0.0.0.0', 3000
+      player = Spotbot::Player.new(queue, $logger)
+      player.run
+      Thin::Server.start Spotbot::Web.new(player, queue), '0.0.0.0', 3000
     end
   end
 end

@@ -6,11 +6,12 @@ class Spotbot::Web < Sinatra::Base
   helpers Sinatra::JSON
   register Sinatra::Namespace
 
-  attr_reader :queue
+  attr_reader :player, :queue
 
-  def initialize(queue)
+  def initialize(player, queue)
     @queue = queue
-    super
+    @player = player
+    super()
   end
 
   before do
@@ -32,6 +33,19 @@ class Spotbot::Web < Sinatra::Base
       json []
     end
   end
+
+  namespace '/player' do
+    put '/stop' do
+      player.pause
+      json :ok
+    end
+
+    put '/start' do
+      player.play
+      json :ok
+    end
+  end
+
 
   get "/favicon.ico" do
   end
