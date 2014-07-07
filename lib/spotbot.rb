@@ -4,7 +4,6 @@ require "logger"
 require "json"
 require "plaything"
 
-
 Thread.abort_on_exception = true
 
 class Spotbot
@@ -17,6 +16,5 @@ require_relative "web"
 require_relative "spotify_support"
 require_relative "frame_reader"
 require_relative "track"
-
 
 Spotbot::Runner.run

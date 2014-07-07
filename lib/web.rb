@@ -51,7 +51,6 @@ class Spotbot::Web < Sinatra::Base
     end
   end
 
-
   get "/favicon.ico" do
   end
 end
