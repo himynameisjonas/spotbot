@@ -3,6 +3,9 @@ require 'pry'
 require "logger"
 require "json"
 require "plaything"
+require "dotenv"
+
+Dotenv.load
 
 Thread.abort_on_exception = true
 

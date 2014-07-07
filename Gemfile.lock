@@ -13,6 +13,9 @@ GEM
     backports (3.6.0)
     coderay (1.1.0)
     daemons (1.1.9)
+    dotenv (0.11.1)
+      dotenv-deployment (~> 0.0.2)
+    dotenv-deployment (0.0.2)
     eventmachine (1.0.3)
     ffi (1.9.3)
     libspotify (12.1.51.4)
@@ -55,6 +58,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
   eventmachine
   plaything
   pry
