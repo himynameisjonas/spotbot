@@ -44,6 +44,11 @@ class Spotbot::Web < Sinatra::Base
       player.play
       json :ok
     end
+
+    put '/next' do
+      player.play_next
+      json :ok
+    end
   end
 
 
