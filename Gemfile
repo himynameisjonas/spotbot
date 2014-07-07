@@ -10,6 +10,6 @@ gem 'eventmachine'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'thin'
+gem 'dotenv'
 
 gem "pry"
-

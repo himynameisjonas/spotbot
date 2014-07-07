@@ -3,7 +3,6 @@ require "pry"
 require "io/console"
 require "singleton"
 
-
 class Spotbot::SpotifySupport
   include Singleton
 
@@ -45,8 +44,8 @@ class Spotbot::SpotifySupport
       logger.info "Using remembered login for: #{username}."
       Spotify.try(:session_relogin, @session)
     else
-      username = prompt("Spotify username, or Facebook e-mail")
-      password = $stdin.noecho { prompt("Spotify password, or Facebook password") }
+      username = ENV["SPOTIFY_USERNAME"]
+      password = ENV["SPOTIFY_PASSWORD"]
 
       logger.info "Attempting login with #{username}."
       Spotify.try(:session_login, @session, username, password, true, nil)
