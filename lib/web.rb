@@ -42,12 +42,16 @@ class Spotbot::Web < Sinatra::Base
 
     put '/start' do
       player.play
-      json :ok
+      if track = player.current_track
+        json track_as_json(track)
+      else
+        json :ok
+      end
     end
 
     put '/next' do
       if track = player.play_next
-        json track_as_json
+        json track_as_json(track)
       else
         json :ok
       end
