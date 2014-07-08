@@ -11,7 +11,6 @@ gem 'redis-namespace'
 gem 'eventmachine'
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'sinatra-cross_origin'
 gem 'thin'
 
 gem 'dotenv'

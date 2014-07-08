@@ -1,11 +1,9 @@
 require 'sinatra'
 require "sinatra/json"
 require "sinatra/namespace"
-require 'sinatra/cross_origin'
 
 class Spotbot::Web < Sinatra::Base
   configure do
-    enable :cross_origin
     helpers Sinatra::JSON
     register Sinatra::Namespace
   end
@@ -21,6 +19,10 @@ class Spotbot::Web < Sinatra::Base
   end
 
   before do
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'accept, authorization, origin'
+    headers['Access-Control-Allow-Credentials'] = 'true'
     content_type 'application/json'
   end
 
