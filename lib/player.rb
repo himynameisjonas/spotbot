@@ -24,7 +24,8 @@ class Spotbot::Player
     end
   end
 
-  def play
+  def play(uri = nil)
+    play_track(uri) if uri
     play_next unless current_track
     Spotify.try(:session_player_play, session, true)
   end

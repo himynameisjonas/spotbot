@@ -65,6 +65,11 @@ class Spotbot::Web < Sinatra::Base
         json :ok
       end
     end
+
+    post '/track' do
+      player.play(params[:uri])
+      json track_as_json(params[:uri])
+    end
   end
 
   namespace '/playlist' do
