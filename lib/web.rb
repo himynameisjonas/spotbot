@@ -38,7 +38,7 @@ class Spotbot::Web < Sinatra::Base
   namespace '/player' do
     put '/stop' do
       player.pause
-      json :ok
+      json status: :ok
     end
 
     put '/start' do
@@ -46,7 +46,7 @@ class Spotbot::Web < Sinatra::Base
       if track = player.current_track
         json track_as_json(track)
       else
-        json :ok
+        json status: :ok
       end
     end
 
@@ -54,7 +54,7 @@ class Spotbot::Web < Sinatra::Base
       if track = player.play_next
         json track_as_json(track)
       else
-        json :ok
+        json status: :ok
       end
     end
 
@@ -62,7 +62,7 @@ class Spotbot::Web < Sinatra::Base
       if track = player.current_track
         json track_as_json(track)
       else
-        json :ok
+        json status: :ok
       end
     end
 
@@ -74,12 +74,12 @@ class Spotbot::Web < Sinatra::Base
 
   namespace '/playlist' do
     get '' do
-      json playlist.name
+      json playlist: playlist.name
     end
 
     post '' do
       playlist.from_uri params[:uri]
-      json playlist.name
+      json playlist: playlist.name
     end
 
     get '/tracks' do
