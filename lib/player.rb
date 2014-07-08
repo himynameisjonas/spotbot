@@ -36,6 +36,7 @@ class Spotbot::Player
   def play_next
     if track = queue.next
       play_track(track)
+      track
     end
   end
 
