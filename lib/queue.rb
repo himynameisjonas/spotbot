@@ -1,12 +1,8 @@
-require 'redis-namespace'
-
 class Spotbot::Queue
+  include Singleton
+
   attr_reader :redis
   KEY_NAME = :track_queue
-
-  def initialize
-    @redis = Redis::Namespace.new :spotbot
-  end
 
   def next
     redis.lpop KEY_NAME
@@ -25,5 +21,11 @@ class Spotbot::Queue
 
   def clear
     redis.del KEY_NAME
+  end
+
+  private
+
+  def redis
+    $redis
   end
 end

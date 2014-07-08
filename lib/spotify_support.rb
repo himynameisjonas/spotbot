@@ -1,7 +1,6 @@
 require "spotify"
 require "pry"
 require "io/console"
-require "singleton"
 
 class Spotbot::SpotifySupport
   include Singleton

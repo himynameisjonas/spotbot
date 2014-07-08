@@ -29,7 +29,7 @@ class Spotbot::Track
     end
   end
 
-  def as_json(*)
+  def as_json
     {
       title: title,
       artists: artists,

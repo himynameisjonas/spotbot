@@ -6,10 +6,11 @@ class Spotbot::Web < Sinatra::Base
   helpers Sinatra::JSON
   register Sinatra::Namespace
 
-  attr_reader :player, :queue
+  attr_reader :player, :queue, :playlist
 
-  def initialize(player, queue)
-    @queue = queue
+  def initialize(player)
+    @queue = Spotbot::Queue.instance
+    @playlist = Spotbot::Playlist.instance
     @player = player
     super()
   end
@@ -63,6 +64,35 @@ class Spotbot::Web < Sinatra::Base
       else
         json :ok
       end
+    end
+  end
+
+  namespace '/playlist' do
+    get '' do
+      json playlist.name
+    end
+
+    post '' do
+      playlist.from_uri params[:uri]
+      json playlist.name
+    end
+
+    get '/tracks' do
+      json "current playlist tracks"
+    end
+
+    get '/shuffle' do
+      json shuffle: playlist.shuffle
+    end
+
+    put '/shuffle' do
+      playlist.shuffle = true
+      json shuffle: playlist.shuffle
+    end
+
+    delete '/shuffle' do
+      playlist.shuffle = false
+      json shuffle: playlist.shuffle
     end
   end
 

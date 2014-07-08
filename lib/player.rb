@@ -2,10 +2,11 @@
 # encoding: utf-8
 
 class Spotbot::Player
-  attr_reader :queue, :plaything, :session, :support, :logger, :current_track
+  attr_reader :queue, :playlist, :plaything, :session, :support, :logger, :current_track
 
-  def initialize(queue, logger)
-    @queue = queue
+  def initialize(logger)
+    @queue = Spotbot::Queue.instance
+    @playlist = Spotbot::Playlist.instance
     @logger = logger
     @plaything = Plaything.new
   end
@@ -33,13 +34,17 @@ class Spotbot::Player
   end
 
   def play_next
-    if track = queue.next
+    if track = next_track
       play_track(track)
       track
     end
   end
 
   private
+
+  def next_track
+    queue.next || playlist.next
+  end
 
   def play_track(uri)
     logger.info("play_track") { uri }
