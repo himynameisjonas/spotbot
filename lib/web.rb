@@ -82,17 +82,17 @@ class Spotbot::Web < Sinatra::Base
     end
 
     get '/shuffle' do
-      json shuffle: playlist.shuffle
+      json shuffle: playlist.shuffle?
     end
 
     put '/shuffle' do
       playlist.shuffle = true
-      json shuffle: playlist.shuffle
+      json shuffle: playlist.shuffle?
     end
 
     delete '/shuffle' do
       playlist.shuffle = false
-      json shuffle: playlist.shuffle
+      json shuffle: playlist.shuffle?
     end
   end
 

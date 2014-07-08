@@ -39,12 +39,12 @@ class Spotbot::Playlist
     Spotify.playlist_name playlist
   end
 
-  def shuffle
+  def shuffle?
     redis.get(SHUFFLE_KEY) == "true"
   end
 
   def shuffle=(state)
-    @queue = [] if shuffle != state
+    @queue = [] if shuffle? != state
     redis.set SHUFFLE_KEY, state
   end
 
@@ -53,7 +53,7 @@ class Spotbot::Playlist
   def populate_queue
     fetch_tracks if redis.llen(TRACKS_KEY) == 0
     @queue = redis.lrange(TRACKS_KEY, 0, -1).reverse
-    @queue.shuffle! if shuffle
+    @queue.shuffle! if shuffle?
   end
 
   def fetch_tracks
