@@ -111,12 +111,7 @@ class Spotbot::Player
       end_of_track: proc do |session|
         @current_track = nil
         logger.debug("session (player)") { "end of track" }
-        if track = queue.next
-          logger.info("session (player) track") { track }
-          play_track(track)
-        else
-          plaything.stop
-        end
+        play_next
       end,
     }
   end
