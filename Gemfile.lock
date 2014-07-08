@@ -73,6 +73,7 @@ GEM
       rack-test
       sinatra (~> 1.4.0)
       tilt (~> 1.3)
+    sinatra-cross_origin (0.3.2)
     slop (3.5.0)
     thin (1.6.2)
       daemons (>= 1.0.9)
@@ -92,5 +93,6 @@ DEPENDENCIES
   rspotify
   sinatra
   sinatra-contrib
+  sinatra-cross_origin
   spotify!
   thin

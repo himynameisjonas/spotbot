@@ -1,10 +1,15 @@
 require 'sinatra'
 require "sinatra/json"
 require "sinatra/namespace"
+require 'sinatra/cross_origin'
 
 class Spotbot::Web < Sinatra::Base
-  helpers Sinatra::JSON
-  register Sinatra::Namespace
+  configure do
+    enable :cross_origin
+    helpers Sinatra::JSON
+    register Sinatra::Namespace
+  end
+
 
   attr_reader :player, :queue, :playlist
 
