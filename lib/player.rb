@@ -2,8 +2,7 @@
 # encoding: utf-8
 
 class Spotbot::Player
-  attr_accessor :current_track
-  attr_reader :queue, :plaything, :session, :support, :logger
+  attr_reader :queue, :plaything, :session, :support, :logger, :current_track
 
   def initialize(queue, logger)
     @queue = queue
@@ -48,7 +47,7 @@ class Spotbot::Player
     link = Spotify.link_create_from_string(uri)
     track = Spotify.link_as_track(link)
     support.poll { Spotify.track_is_loaded(track) }
-    current_track = track
+    @current_track = uri
 
     # Pause before we load a new track. Fixes a quirk in libspotify.
     Spotify.try(:session_player_play, session, false)
@@ -104,7 +103,7 @@ class Spotbot::Player
       end,
 
       end_of_track: proc do |session|
-        current_track = nil
+        @current_track = nil
         logger.debug("session (player)") { "end of track" }
         if track = queue.next
           logger.info("session (player) track") { track }

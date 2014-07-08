@@ -47,7 +47,15 @@ class Spotbot::Web < Sinatra::Base
 
     put '/next' do
       if track = player.play_next
-        json Spotbot::Track.from_uri(track).as_json
+        json track_as_json
+      else
+        json :ok
+      end
+    end
+
+    get '/track' do
+      if track = player.current_track
+        json track_as_json(track)
       else
         json :ok
       end
@@ -55,5 +63,11 @@ class Spotbot::Web < Sinatra::Base
   end
 
   get "/favicon.ico" do
+  end
+
+  private
+
+  def track_as_json(uri)
+    Spotbot::Track.from_uri(uri).as_json
   end
 end
