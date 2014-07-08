@@ -111,6 +111,10 @@ class Spotbot::Web < Sinatra::Base
   get "/favicon.ico" do
   end
 
+  options "*" do
+    halt 200
+  end
+
   private
 
   def track_as_json(uri)
