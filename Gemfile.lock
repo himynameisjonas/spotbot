@@ -17,10 +17,31 @@ GEM
       dotenv-deployment (~> 0.0.2)
     dotenv-deployment (0.0.2)
     eventmachine (1.0.3)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
+    hashie (2.1.2)
+    jwt (1.0.0)
     libspotify (12.1.51.4)
     method_source (0.8.2)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    netrc (0.7.7)
+    oauth2 (0.9.4)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
+    omniauth (1.2.1)
+      hashie (>= 1.2, < 3)
+      rack (~> 1.0)
+    omniauth-oauth2 (1.1.2)
+      faraday (>= 0.8, < 0.10)
+      multi_json (~> 1.3)
+      oauth2 (~> 0.9.3)
+      omniauth (~> 1.2)
     performer (1.0.1)
     plaything (1.1.1)
       ffi (~> 1.1)
@@ -36,6 +57,11 @@ GEM
     redis (3.1.0)
     redis-namespace (1.5.0)
       redis (~> 3.0, >= 3.0.4)
+    rest_client (1.7.3)
+      netrc (~> 0.7.7)
+    rspotify (0.9.0)
+      omniauth-oauth2 (~> 1.1)
+      rest_client (~> 1.7)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -63,6 +89,7 @@ DEPENDENCIES
   plaything
   pry
   redis-namespace
+  rspotify
   sinatra
   sinatra-contrib
   spotify!

@@ -6,6 +6,7 @@ require "plaything"
 require "dotenv"
 require 'redis-namespace'
 require "singleton"
+require 'rspotify'
 
 
 Dotenv.load

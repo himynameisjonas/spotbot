@@ -36,7 +36,11 @@ class Spotbot::Playlist
   end
 
   def name
-    Spotify.playlist_name playlist
+    if album?
+      "#{album.artists.map(&:name).join(", ")}  – #{album.name}"
+    else
+      Spotify.playlist_name playlist
+    end
   end
 
   def shuffle?
@@ -48,20 +52,29 @@ class Spotbot::Playlist
     redis.set SHUFFLE_KEY, state
   end
 
+  def album?
+    uri.match(/:album:/)
+  end
+
   private
 
   def populate_queue
+    return unless uri
     fetch_tracks if redis.llen(TRACKS_KEY) == 0
     @queue = redis.lrange(TRACKS_KEY, 0, -1).reverse
     @queue.shuffle! if shuffle?
   end
 
   def fetch_tracks
-    index = 0
-    while track = Spotify.playlist_track(playlist, index) do
-      link = Spotify.link_create_from_track track, 0
-      redis.rpush TRACKS_KEY, Spotify.link_as_string(link)
-      index += 1
+    if album?
+      redis.rpush TRACKS_KEY, album.tracks.map(&:uri)
+    else
+      index = 0
+      while track = Spotify.playlist_track(playlist, index) do
+        link = Spotify.link_create_from_track track, 0
+        redis.rpush TRACKS_KEY, Spotify.link_as_string(link)
+        index += 1
+      end
     end
   end
 
@@ -71,9 +84,18 @@ class Spotbot::Playlist
     playlist
   end
 
+  def album
+    @album ||= RSpotify::Album.find(uri_id)
+  end
+
+  def uri_id
+    uri.gsub("spotify:album:", "")
+  end
+
   def reset_state
     redis.del TRACKS_KEY
     @queue = []
+    @album = nil
     self.shuffle = false
   end
 
