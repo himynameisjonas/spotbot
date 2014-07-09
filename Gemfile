@@ -8,6 +8,8 @@ gem "rspotify"
 
 gem 'redis-namespace'
 
+gem 'firebase'
+
 gem 'eventmachine'
 gem 'sinatra'
 gem 'sinatra-contrib'

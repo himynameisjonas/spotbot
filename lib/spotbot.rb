@@ -25,5 +25,6 @@ require_relative "spotify_support"
 require_relative "frame_reader"
 require_relative "track"
 require_relative "playlist"
+require_relative "firebase"
 
 Spotbot::Runner.run
