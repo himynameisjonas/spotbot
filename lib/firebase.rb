@@ -2,6 +2,12 @@ require 'firebase'
 
 class Spotbot::Firebase
 
+  def initialize
+    at_exit do
+      firebase.set('current_track', nil)
+    end
+  end
+
   def current_track=(uri)
     return unless ENV['FIREBASE_URI']
     EM.defer do
