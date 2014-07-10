@@ -7,6 +7,14 @@ GIT
       libspotify (~> 12.1.51)
       performer (~> 1.0)
 
+GIT
+  remote: https://github.com/oscardelben/firebase-ruby.git
+  revision: 94fd0c9dcfc85609dd0f03678e12f06c73afea89
+  specs:
+    firebase (0.2.2)
+      json
+      typhoeus (>= 0.6.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -22,9 +30,6 @@ GEM
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
-    firebase (0.2.2)
-      json
-      typhoeus (>= 0.6.1)
     hashie (2.1.2)
     json (1.8.1)
     jwt (1.0.0)
@@ -94,7 +99,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   eventmachine
-  firebase
+  firebase!
   plaything
   pry
   redis-namespace

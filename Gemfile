@@ -8,7 +8,7 @@ gem "rspotify"
 
 gem 'redis-namespace'
 
-gem 'firebase'
+gem 'firebase', git: "https://github.com/oscardelben/firebase-ruby.git"
 
 gem 'eventmachine'
 gem 'sinatra'
