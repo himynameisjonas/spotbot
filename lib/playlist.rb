@@ -14,6 +14,7 @@ class Spotbot::Playlist
   def from_uri(uri)
     reset_state
     @uri = uri
+    self.shuffle = false
     redis.set URI_KEY, uri
     fetch_tracks
     populate_queue
@@ -96,7 +97,6 @@ class Spotbot::Playlist
     redis.del TRACKS_KEY
     @queue = []
     @album = nil
-    self.shuffle = false
   end
 
   def link
