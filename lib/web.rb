@@ -3,13 +3,14 @@ require "sinatra/json"
 require "sinatra/namespace"
 
 class Spotbot::Web < Sinatra::Base
+  attr_reader :player, :queue, :playlist
+
   configure do
     helpers Sinatra::JSON
     register Sinatra::Namespace
+    set :show_exceptions, false
+    enable :logging
   end
-
-
-  attr_reader :player, :queue, :playlist
 
   def initialize(player)
     @queue = Spotbot::Queue.instance
@@ -90,6 +91,7 @@ class Spotbot::Web < Sinatra::Base
     end
 
     get '/tracks' do
+      raise StandardError
       json "current playlist tracks"
     end
 
@@ -109,6 +111,10 @@ class Spotbot::Web < Sinatra::Base
   end
 
   get "/favicon.ico" do
+  end
+
+  error do |err|
+    puts err.inspect
   end
 
   options "*" do
