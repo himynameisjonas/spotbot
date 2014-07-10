@@ -1,58 +1,32 @@
 class Spotbot::Track
-  attr_reader :track_link
+  attr_reader :uri
 
-  def self.from_uri(uri)
-    new Spotify.link_create_from_string(uri)
-  end
-
-  def initialize(track_link)
-    @track_link = track_link
-  end
-
-  def title
-    @title ||= loaded do
-      Spotify.track_name(track)
-    end
-  end
-
-  def artists
-    @artists ||= loaded do
-      Spotify.track_num_artists(track).times.map do |index|
-        Spotify.artist_name Spotify.track_artist(track, index)
-      end
-    end
-  end
-
-  def duration
-    @duration ||= loaded do
-      Spotify.track_duration(track)
-    end
+  def initialize(uri)
+    @uri = uri
   end
 
   def as_json
     {
-      title: title,
-      artists: artists,
-      duration: duration,
+      title: track.name,
+      artists: track.artists.map(&:name),
+      duration: track.duration_ms,
+      image: image,
+      uri: uri,
     }
   end
 
   private
 
-  def is_loaded?
-    support.poll { Spotify.track_is_loaded(track) }
+  def image
+    return unless track.album && track.album.images && track.album.images.first
+    track.album.images.first["url"]
   end
 
   def track
-    @track ||= Spotify.link_as_track(track_link)
+    @track ||= RSpotify::Track.find uri_id
   end
 
-  def support
-    Spotbot::SpotifySupport.instance
-  end
-
-  def loaded(&block)
-    is_loaded?
-    yield
+  def uri_id
+    uri.gsub("spotify:track:", "")
   end
 end

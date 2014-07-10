@@ -18,7 +18,7 @@ class Spotbot::Firebase
   private
 
   def track_from_uri(uri)
-    Spotbot::Track.from_uri(uri)
+    Spotbot::Track.new(uri)
   end
 
   def firebase

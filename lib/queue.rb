@@ -10,12 +10,12 @@ class Spotbot::Queue
 
   def add(track)
     redis.rpush KEY_NAME, track
-    Spotbot::Track.from_uri(track)
+    Spotbot::Track.new(track)
   end
 
   def all
     redis.lrange(KEY_NAME, 0, -1).map do |uri|
-      Spotbot::Track.from_uri uri
+      Spotbot::Track.new uri
     end
   end
 

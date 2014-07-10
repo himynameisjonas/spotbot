@@ -27,7 +27,7 @@ class Spotbot::Playlist
 
   def tracks
     redis.lrange(TRACKS_KEY, 0, -1).map do |uri|
-      Spotbot::Track.from_uri uri
+      Spotbot::Track.new uri
     end
   end
 

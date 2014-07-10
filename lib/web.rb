@@ -118,6 +118,6 @@ class Spotbot::Web < Sinatra::Base
   private
 
   def track_as_json(uri)
-    Spotbot::Track.from_uri(uri).as_json
+    Spotbot::Track.new(uri).as_json
   end
 end
