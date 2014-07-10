@@ -70,12 +70,7 @@ class Spotbot::Playlist
     if album?
       redis.rpush TRACKS_KEY, album.tracks.map(&:uri)
     else
-      index = 0
-      while track = Spotify.playlist_track(playlist, index) do
-        link = Spotify.link_create_from_track track, 0
-        redis.rpush TRACKS_KEY, Spotify.link_as_string(link)
-        index += 1
-      end
+      redis.rpush TRACKS_KEY, playlist_tracks
     end
   end
 
@@ -83,6 +78,15 @@ class Spotbot::Playlist
     playlist = Spotify.playlist_create support.session, link
     support.poll { Spotify.playlist_is_loaded(playlist) }
     playlist
+  end
+
+  def playlist_tracks
+    tracks = []
+    while track = Spotify.playlist_track(playlist, tracks.size) do
+      link = Spotify.link_create_from_track track, 0
+      tracks << Spotify.link_as_string(link)
+    end
+    tracks
   end
 
   def album
