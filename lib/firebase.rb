@@ -11,7 +11,11 @@ class Spotbot::Firebase
   def current_track=(uri)
     return unless ENV['FIREBASE_URI']
     EM.defer do
-      firebase.set('current_track', track_from_uri(uri).as_json)
+      if uri
+        firebase.set('current_track', track_from_uri(uri).as_json)
+      else
+        firebase.set('current_track', nil)
+      end
     end
   end
 
