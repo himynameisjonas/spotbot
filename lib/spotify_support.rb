@@ -53,13 +53,7 @@ class Spotbot::SpotifySupport
     logger.info "Log in requested. Waiting forever until logged in."
     poll { Spotify.session_connectionstate(@session) == :logged_in }
 
-    if ENV['LAST_FM_USERNAME'] && ENV['LAST_FM_PASSWORD']
-      logger.info "Scrobbling to Lastfm"
-      Spotify.session_set_social_credentials(session, :lastfm, ENV['LAST_FM_USERNAME'], ENV['LAST_FM_PASSWORD'])
-      Spotify.session_set_scrobbling(session, :lastfm, :local_enabled)
-    else
-      logger.info "Not scrobbling to Lastfm"
-    end
+    lastfm_scrobbling
 
     at_exit do
       logger.info "Logging out."
@@ -69,4 +63,17 @@ class Spotbot::SpotifySupport
     end
     @session
   end
+
+  private
+
+  def lastfm_scrobbling
+    if ENV['LAST_FM_USERNAME'] && ENV['LAST_FM_PASSWORD']
+      logger.info "Scrobbling to Lastfm"
+      Spotify.session_set_social_credentials(session, :lastfm, ENV['LAST_FM_USERNAME'], ENV['LAST_FM_PASSWORD'])
+      Spotify.session_set_scrobbling(session, :lastfm, :local_enabled)
+    else
+      logger.info "Not scrobbling to Lastfm"
+    end
+  end
+
 end
