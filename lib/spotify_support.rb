@@ -63,6 +63,7 @@ class Spotbot::SpotifySupport
 
     at_exit do
       logger.info "Logging out."
+      Spotbot::Firebase.new.post
       Spotify.session_logout(@session)
       poll { Spotify.session_connectionstate(@session) != :logged_in }
     end

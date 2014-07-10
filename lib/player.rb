@@ -2,14 +2,13 @@
 # encoding: utf-8
 
 class Spotbot::Player
-  attr_reader :queue, :playlist, :plaything, :session, :support, :logger, :current_track, :firebase
+  attr_reader :queue, :playlist, :plaything, :session, :support, :logger, :current_track
 
   def initialize(logger)
     @queue = Spotbot::Queue.instance
     @playlist = Spotbot::Playlist.instance
     @logger = logger
     @plaything = Plaything.new
-    @firebase = Spotbot::Firebase.new
   end
 
   def run
@@ -64,7 +63,7 @@ class Spotbot::Player
 
   def current_track=(uri)
     @current_track = uri
-    firebase.current_track = uri
+    Spotbot::Firebase.new(uri).post
   end
 
   def session_callbacks
