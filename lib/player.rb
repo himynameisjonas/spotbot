@@ -63,7 +63,7 @@ class Spotbot::Player
 
   def current_track=(uri)
     @current_track = uri
-    Spotbot::Firebase.new(uri).post
+    Spotbot::Firebase.new(uri).post if uri
   end
 
   def session_callbacks
