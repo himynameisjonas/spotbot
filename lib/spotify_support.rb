@@ -39,19 +39,7 @@ class Spotbot::SpotifySupport
     error, @session = Spotify.session_create(config)
     raise Spotify::Error.new(error) if error
 
-    if username = Spotify.session_remembered_user(@session)
-      logger.info "Using remembered login for: #{username}."
-      Spotify.try(:session_relogin, @session)
-    else
-      username = ENV["SPOTIFY_USERNAME"]
-      password = ENV["SPOTIFY_PASSWORD"]
-
-      logger.info "Attempting login with #{username}."
-      Spotify.try(:session_login, @session, username, password, true, nil)
-    end
-
-    logger.info "Log in requested. Waiting forever until logged in."
-    poll { Spotify.session_connectionstate(@session) == :logged_in }
+    logged_in
 
     lastfm_scrobbling
 
@@ -61,7 +49,6 @@ class Spotbot::SpotifySupport
       Spotify.session_logout(@session)
       poll { Spotify.session_connectionstate(@session) != :logged_in }
     end
-    @session
   end
 
   private
@@ -76,4 +63,19 @@ class Spotbot::SpotifySupport
     end
   end
 
+  def login
+    if username = Spotify.session_remembered_user(@session)
+      logger.info "Using remembered login for: #{username}."
+      Spotify.try(:session_relogin, @session)
+    else
+      username = ENV["SPOTIFY_USERNAME"]
+      password = ENV["SPOTIFY_PASSWORD"]
+
+      logger.info "Attempting login with #{username}."
+      Spotify.try(:session_login, @session, username, password, true, nil)
+    end
+
+    logger.info "Log in requested. Waiting forever until logged in."
+    poll { Spotify.session_connectionstate(@session) == :logged_in }
+  end
 end
