@@ -12,6 +12,7 @@ class Spotbot::Playlist
   end
 
   def from_uri(uri)
+    return false unless valid_uri?(uri)
     reset_state
     @uri = uri
     self.shuffle = false
@@ -58,6 +59,10 @@ class Spotbot::Playlist
   end
 
   private
+
+  def valid_uri?(uri)
+    !!uri.match(/spotify:(album:|(user:\S*:playlist:))\S+/)
+  end
 
   def populate_queue
     return unless uri

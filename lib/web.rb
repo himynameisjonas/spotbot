@@ -86,8 +86,11 @@ class Spotbot::Web < Sinatra::Base
     end
 
     post '' do
-      playlist.from_uri params[:uri]
-      json playlist: playlist.name
+      if playlist.from_uri params[:uri]
+        json playlist: playlist.name
+      else
+        json status: :invalid
+      end
     end
 
     get '/tracks' do
