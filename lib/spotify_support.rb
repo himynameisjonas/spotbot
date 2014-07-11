@@ -39,7 +39,7 @@ class Spotbot::SpotifySupport
     error, @session = Spotify.session_create(config)
     raise Spotify::Error.new(error) if error
 
-    logged_in
+    login
 
     lastfm_scrobbling
 
