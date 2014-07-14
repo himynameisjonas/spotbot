@@ -28,6 +28,10 @@ class Spotbot::Web < Sinatra::Base
   end
 
   namespace '/queue' do
+    get '' do
+      json queue.all.map(&:as_json)
+    end
+
     get '/tracks' do
       json queue.all.map(&:as_json)
     end
