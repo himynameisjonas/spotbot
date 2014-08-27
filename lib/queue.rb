@@ -5,11 +5,14 @@ class Spotbot::Queue
   KEY_NAME = :track_queue
 
   def next
-    redis.lpop KEY_NAME
+    track = redis.lpop KEY_NAME
+    update_firebase
+    track
   end
 
   def add(track)
     redis.rpush KEY_NAME, track
+    update_firebase
     Spotbot::Track.new(track)
   end
 
@@ -21,9 +24,14 @@ class Spotbot::Queue
 
   def clear
     redis.del KEY_NAME
+    update_firebase
   end
 
   private
+
+  def update_firebase
+    Spotbot::Firebase.queue(all)
+  end
 
   def redis
     $redis

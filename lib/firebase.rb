@@ -1,24 +1,30 @@
 require 'firebase'
 
 class Spotbot::Firebase
-  attr_reader :uri
+  attr_reader :key, :data
 
-  def initialize(uri = nil)
-    @uri = uri
+  def self.current_track(uri = nil)
+    data = Spotbot::Track.new(uri).as_json if uri
+    new(:current_track, data).post
+  end
+
+  def self.queue(queue)
+    new(:queue, queue.map(&:as_json)).post
+  end
+
+  def initialize(key, data)
+    @key = key
+    @data = data
   end
 
   def post
     return unless ENV['FIREBASE_URI']
     EM.defer do
-      firebase.set('current_track', data)
+      firebase.set(key, data)
     end
   end
 
   private
-
-  def data
-    Spotbot::Track.new(uri).as_json if uri
-  end
 
   def firebase
     Firebase::Client.new(ENV['FIREBASE_URI'])
