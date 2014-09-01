@@ -19,12 +19,15 @@ class Spotbot::Playlist
     redis.set URI_KEY, uri
     fetch_tracks
     populate_queue
+    Spotbot::Firebase.playlist(as_json)
     self
   end
 
   def next
     populate_queue if queue.size == 0
-    queue.pop
+    track = queue.pop
+    Spotbot::Firebase.playlist(as_json)
+    track
   end
 
   def tracks
@@ -52,6 +55,7 @@ class Spotbot::Playlist
   def shuffle=(state)
     @queue = [] if shuffle? != state
     redis.set SHUFFLE_KEY, state
+    Spotbot::Firebase.playlist(as_json)
   end
 
   def album?
@@ -59,6 +63,15 @@ class Spotbot::Playlist
   end
 
   private
+
+  def as_json
+    {
+      name: name,
+      uri: uri,
+      shuffle: shuffle?,
+      tracks: tracks.map(&:as_json),
+    }
+  end
 
   def valid_uri?(uri)
     !!uri.match(/spotify:(album:|(user:\S*:playlist:))\S+/)
@@ -106,6 +119,7 @@ class Spotbot::Playlist
     redis.del TRACKS_KEY
     @queue = []
     @album = nil
+    Spotbot::Firebase.playlist(as_json)
   end
 
   def link

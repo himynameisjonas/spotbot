@@ -12,6 +12,10 @@ class Spotbot::Firebase
     new(:queue, queue.map(&:as_json)).post
   end
 
+  def self.playlist(json)
+    new(:playlist, json).post
+  end
+
   def initialize(key, data)
     @key = key
     @data = data
