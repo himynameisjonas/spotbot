@@ -9,6 +9,7 @@ class Spotbot::Playlist
 
   def initialize
     reset_state
+    Spotbot::Firebase.playlist(as_json)
   end
 
   def from_uri(uri)
@@ -119,7 +120,6 @@ class Spotbot::Playlist
     redis.del TRACKS_KEY
     @queue = []
     @album = nil
-    Spotbot::Firebase.playlist(as_json)
   end
 
   def link
