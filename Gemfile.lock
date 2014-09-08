@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/Burgestrand/spotify.git
-  revision: 5115d1c2c674a89a7cc883b2b4cc28cdb344267c
+  revision: d80b92491d911c86236157612260026d9df56d9c
   specs:
     spotify (12.5.3)
       ffi (~> 1.0, >= 1.0.11)
