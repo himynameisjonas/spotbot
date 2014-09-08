@@ -2,13 +2,14 @@
 # encoding: utf-8
 
 class Spotbot::Player
-  attr_reader :queue, :playlist, :plaything, :support, :logger, :current_track
+  attr_reader :queue, :playlist, :plaything, :support, :logger, :current_track, :changing_track
 
   def initialize(logger)
     @queue = Spotbot::Queue.instance
     @playlist = Spotbot::Playlist.instance
     @logger = logger
     @plaything = Plaything.new
+    @changing_track = false
   end
 
   def run
@@ -48,6 +49,7 @@ class Spotbot::Player
   end
 
   def play_track(uri)
+    @changing_track = true
     logger.info("play_track") { uri }
 
     link = Spotify.link_create_from_string(uri)
@@ -59,6 +61,7 @@ class Spotbot::Player
     Spotify.try(:session_player_play, support.session, false)
     Spotify.try(:session_player_load, support.session, track)
     Spotify.try(:session_player_play, support.session, true)
+    @changing_track = false
   end
 
   def current_track=(uri)
@@ -114,9 +117,11 @@ class Spotbot::Player
       end,
 
       end_of_track: proc do |session|
-        self.current_track = nil
-        logger.debug("session (player)") { "end of track" }
-        play_next
+        unless changing_track
+          logger.debug("session (player)") { "end of track" }
+          self.current_track = nil
+          play_next
+        end
       end,
     }
   end
