@@ -27,4 +27,14 @@ require_relative "track"
 require_relative "playlist"
 require_relative "firebase"
 
+class Plaything
+  module OpenAL
+    class Source
+      def volume(float)
+        OpenAL.listenerf :gain, [[float, 0].max, 1].min
+      end
+    end
+  end
+end
+
 Spotbot::Runner.run

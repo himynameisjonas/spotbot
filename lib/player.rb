@@ -10,6 +10,7 @@ class Spotbot::Player
     @logger = logger
     @plaything = Plaything.new
     @changing_track = false
+    self.volume = 20
   end
 
   def run
@@ -33,6 +34,11 @@ class Spotbot::Player
 
   def pause
     Spotify.try(:session_player_play, support.session, false)
+  end
+
+  def volume=(level)
+    Spotbot::Firebase.volume(level)
+    plaything.source.volume level.to_i / 100.0
   end
 
   def play_next

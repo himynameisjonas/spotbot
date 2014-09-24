@@ -16,6 +16,10 @@ class Spotbot::Firebase
     new(:playlist, json).post
   end
 
+  def self.volume(level)
+    new(:volume, level).post
+  end
+
   def initialize(key, data)
     @key = key
     @data = data

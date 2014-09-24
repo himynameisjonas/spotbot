@@ -82,6 +82,10 @@ class Spotbot::Web < Sinatra::Base
       player.play(params[:uri])
       json track_as_json(params[:uri])
     end
+
+    put '/volume' do
+      player.volume = params[:level]
+    end
   end
 
   namespace '/playlist' do
