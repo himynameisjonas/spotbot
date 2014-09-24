@@ -1,5 +1,5 @@
 # Spotbot
-A Spotify player with a HTTP API and Firebase integration
+A Spotify player with a HTTP API and Firebase integration. Great together with [spotbot-client](https://github.com/himynameisjonas/spotbot-client).
 
 ## Features
 * Start/Stop audio
@@ -23,3 +23,6 @@ LAST_FM_USERNAME=zzz
 LAST_FM_PASSWORD=xxx
 FIREBASE_URI=https://xxxx.firebaseio.com
 ```
+
+## Web client
+Use [spotbot-client](https://github.com/himynameisjonas/spotbot-client) for an easy way to controll the player
