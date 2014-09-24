@@ -1,12 +1,12 @@
 # Spotbot
-A Spotify player with a HTTP API
+A Spotify player with a HTTP API and Firebase integration
 
 ## Features
 * Start/Stop audio
 * Add tracks to a play queue
-* Set current playlist/album 
+* Set current playlist/album
 * Scrobbles to Last.fm
-* Sets current track in Firebase, for others to fetch in realtime
+* Sets current track, current playlist, track queue and player volume in Firebase, for others to fetch in realtime
 * Everything controllable via a easy to use JSON api
 
 ## Config/Setup
