@@ -66,6 +66,7 @@ class Spotbot::Playlist
   private
 
   def as_json
+    return {} unless uri
     {
       name: name,
       uri: uri,
