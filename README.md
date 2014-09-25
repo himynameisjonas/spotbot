@@ -9,6 +9,9 @@ A Spotify player with a HTTP API and Firebase integration. Great together with [
 * Sets current track, current playlist, track queue and player volume in Firebase, for others to fetch in realtime
 * Everything controllable via a easy to use JSON api
 
+## Prerequisites
+* Redis. Used to persist queue and playlist information.
+
 ## Config/Setup
 ### Required environment variables
 ```
