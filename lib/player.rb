@@ -8,7 +8,7 @@ class Spotbot::Player
     @logger = logger
     @plaything = Plaything.new
     @changing_track = false
-    self.volume = 20
+    self.volume = $redis.get('volume') || 20
   end
 
   def run
@@ -38,6 +38,7 @@ class Spotbot::Player
   end
 
   def volume=(level)
+    $redis.set('volume', level)
     Spotbot::Firebase.volume(level)
     plaything.source.volume level.to_i / 100.0
   end
