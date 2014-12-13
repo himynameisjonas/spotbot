@@ -5,8 +5,6 @@ class Spotbot::Player
   attr_reader :queue, :playlist, :plaything, :support, :logger, :current_track, :changing_track
 
   def initialize(logger)
-    @queue = Spotbot::Queue.instance
-    @playlist = Spotbot::Playlist.instance
     @logger = logger
     @plaything = Plaything.new
     @changing_track = false
@@ -18,6 +16,9 @@ class Spotbot::Player
     Spotbot::SpotifySupport::DEFAULT_CONFIG[:callbacks] = Spotify::SessionCallbacks.new(session_callbacks)
 
     support.initialize_spotify!
+
+    @queue = Spotbot::Queue.instance
+    @playlist = Spotbot::Playlist.instance
 
     play_next
 
