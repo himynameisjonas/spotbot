@@ -70,6 +70,9 @@ class Spotbot::Player
     Spotify.try(:session_player_load, support.session, track)
     Spotify.try(:session_player_play, support.session, true)
     @changing_track = false
+  rescue Spotify::TrackNotPlayableError
+    logger.info("play_track") { "Track not playable - skipping" }
+    play_next
   end
 
   def current_track=(uri)
