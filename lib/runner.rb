@@ -17,14 +17,22 @@ class Spotbot::Runner
   end
 
   def self.run
-    EM.schedule do
-      trap("INT") { EM.stop }
+    player = Spotbot::Player.new($logger)
+
+    player_thread = Thread.new do
+      EM.run do
+        player.run
+      end
     end
 
-    EM.run do
-      player = Spotbot::Player.new($logger)
-      player.run
-      Thin::Server.start Spotbot::Web.new(player), '0.0.0.0', ENV['SERVER_PORT']
+    server_thread = Thread.new do
+      Thin::Server.start(Spotbot::Web.new(player), '0.0.0.0', ENV['SERVER_PORT'], signals: false)
     end
+
+    Signal.trap("INT") { EM.stop }
+    Signal.trap("TERM") { EM.stop }
+
+    player_thread.join
+    server_thread.join
   end
 end
