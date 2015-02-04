@@ -1,6 +1,8 @@
 "use strict";
 require("dotenv").load();
 
+var player = require("./lib/player");
+
 var spotify = require("node-spotify")({
     appkeyFile: "./spotify_appkey.key",
     cacheFolder: "cache",
@@ -14,8 +16,7 @@ process.on("SIGINT", function () {
 
 var ready = function()  {
   console.log("Logged in");
-  var track = spotify.createFromLink("spotify:track:1EiKmk4AwuNG2CmhQcCJ8k");
-  spotify.player.play(track);
+  player(spotify).start();
 };
 
 spotify.on({
