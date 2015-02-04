@@ -1,7 +1,6 @@
 "use strict";
 require("dotenv").load();
 
-
 var spotify = require("node-spotify")({
     appkeyFile: "./spotify_appkey.key",
     cacheFolder: "cache",
