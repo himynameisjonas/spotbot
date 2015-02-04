@@ -1,13 +1,15 @@
 "use strict";
 require("dotenv").load();
 
-var player = require("./lib/player");
 
 var spotify = require("node-spotify")({
     appkeyFile: "./spotify_appkey.key",
     cacheFolder: "cache",
     settingsFolder: "settings"
 });
+var queue = require("./lib/queue")(spotify);
+var player = require("./lib/player")(spotify, queue);
+var api = require("./lib/api")(player, queue);
 
 process.on("SIGINT", function () {
   console.log("Logging out");
@@ -16,7 +18,7 @@ process.on("SIGINT", function () {
 
 var ready = function()  {
   console.log("Logged in");
-  player(spotify).start();
+  player.start();
 };
 
 spotify.on({
