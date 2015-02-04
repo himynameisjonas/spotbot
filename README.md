@@ -1,31 +1,9 @@
 # Spotbot
-A Spotify player with a HTTP API and Firebase integration. Great together with [spotbot-client](https://github.com/himynameisjonas/spotbot-client).
 
-## Features
-* Start/Stop audio
-* Add tracks to a play queue
-* Set current playlist/album
-* Scrobbles to Last.fm
-* Sets current track, current playlist, track queue and player volume in Firebase, for others to fetch in realtime
-* Everything controllable via a easy to use JSON api
+The node version of Spotbot
 
-## Prerequisites
-* Redis. Used to persist queue and playlist information.
+### Install libspotify
+1. `brew install homebrew/binary/libspotify`
+2. `sudo ln -s /usr/local/opt/libspotify/lib/libspotify.12.1.51.dylib /usr/local/opt/libspotify/lib/libspotify`
 
-## Config/Setup
-### Required environment variables
-```
-SPOTIFY_USERNAME=xxx
-SPOTIFY_PASSWORD=yyy
-SERVER_PORT=3030
-```
-
-### Optional environment variables
-```
-LAST_FM_USERNAME=zzz
-LAST_FM_PASSWORD=xxx
-FIREBASE_URI=https://xxxx.firebaseio.com
-```
-
-## Web client
-Use [spotbot-client](https://github.com/himynameisjonas/spotbot-client) for an easy way to controll the player
+xoxo
