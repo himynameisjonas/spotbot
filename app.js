@@ -9,7 +9,6 @@ var spotify = require("node-spotify")({
 var queue = require("./lib/queue")(spotify);
 var playlist = require("./lib/playlist")(spotify);
 var player = require("./lib/player")(spotify, queue, playlist);
-var api = require("./lib/api")(player);
 
 process.on("SIGINT", function () {
   console.log("Logging out");
