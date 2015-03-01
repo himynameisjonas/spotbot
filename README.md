@@ -42,7 +42,7 @@ Firebase nodes and their uses. Plase note that [arrays are a bit special in Fire
   - **shuffle** _read/write_ Boolean to controll shuffle on/off for the current playlist.
   - **name** _read-only_ Name of the current playlist.
   - **tracks** _read-only_ Array of Uri:s of the current playlist’s tracks.
-- **queue** _read/write_ Array or Uri:s in player queue. Add to enqueue new track, remove to drop a track from the queue.
+- **queue** _read/write_ Array of objects with an **uri** property. Add to enqueue new track, remove to drop a track from the queue.
 
 ## Web client
 Use [spotbot-client](https://github.com/himynameisjonas/spotbot-client) for an easy way to controll the player
