@@ -30,6 +30,19 @@ See [node-spotify](https://github.com/FrontierPsychiatrist/node-spotify/blob/v0.
 1. `brew install homebrew/binary/libspotify`
 2. `sudo ln -s /usr/local/opt/libspotify/lib/libspotify.12.1.51.dylib /usr/local/opt/libspotify/lib/libspotify`
 
+## Api
+Firebase nodes and their uses. Plase note that [arrays are a bit special in Firebase](https://www.firebase.com/blog/2014-04-28-best-practices-arrays-in-firebase.html)
+
+- **player**
+  - **current_track** _read-only_ Uri to the currently playing track
+  - **playing** _read/write_ Boolean showing current status (playing/paused)
+  - **next** _write_ Boolean. Set to true to skip to next track in queue/playlist. Will be set to false again as soon the player has changed track.
+- **playlist**
+  - **uri** _read/write_ Uri to the current playlist/album. Set to a new value to change playlist/album.
+  - **shuffle** _read/write_ Boolean to controll shuffle on/off for the current playlist.
+  - **name** _read-only_ Name of the current playlist.
+  - **tracks** _read-only_ Array of Uri:s of the current playlist’s tracks.
+- **queue** _read/write_ Array or Uri:s in player queue. Add to enqueue new track, remove to drop a track from the queue.
 
 ## Web client
 Use [spotbot-client](https://github.com/himynameisjonas/spotbot-client) for an easy way to controll the player
