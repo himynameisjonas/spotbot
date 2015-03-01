@@ -1,31 +1,48 @@
 # Spotbot
-A Spotify player with a HTTP API and Firebase integration. Great together with [spotbot-client](https://github.com/himynameisjonas/spotbot-client).
+A Spotify player with a Firebase integration. Perfect for an office where everyone can control the player and enqueue tracks. Great together with [spotbot-client](https://github.com/himynameisjonas/spotbot-client).
 
-## Features
-* Start/Stop audio
-* Add tracks to a play queue
-* Set current playlist/album
-* Scrobbles to Last.fm
-* Sets current track, current playlist, track queue and player volume in Firebase, for others to fetch in realtime
-* Everything controllable via a easy to use JSON api
+## Features/Short facts
+* Start/Stop audio (of course!)
+* Add tracks to a queue.
+* Set a playlist or an album as the current playlist.
+* Plays from the queue first and fallbacks to the playlist/album when the queue is empty.
+* Stores state/queue in Firebase.
+* Use a client ([spotbot-client](https://github.com/himynameisjonas/spotbot-client)) to control the player via the firebase connection.
 
-## Prerequisites
-* Redis. Used to persist queue and playlist information.
 
 ## Config/Setup
-### Required environment variables
+1. Checkout code `git clone https://github.com/himynameisjonas/spotbot.git`
+2. Install Libspotify (see separate section)
+3. Install node dependencies `npm install`
+4. Provide a [Spotify app key](https://devaccount.spotify.com/my-account/keys/) as `spotify_appkey.key` (binary) in the project’s root.
+5. Have a Spotify Premium account and a (free) Firebase account and config the player with a .env file:
 ```
 SPOTIFY_USERNAME=xxx
 SPOTIFY_PASSWORD=yyy
 SERVER_PORT=3030
-```
-
-### Optional environment variables
-```
-LAST_FM_USERNAME=zzz
-LAST_FM_PASSWORD=xxx
 FIREBASE_URI=https://xxxx.firebaseio.com
 ```
+
+### Install Libspotify/node-spotify
+See [node-spotify](https://github.com/FrontierPsychiatrist/node-spotify/blob/v0.7.0/README.md) for more information.
+
+#### Install libspotify on a Mac
+1. `brew install homebrew/binary/libspotify`
+2. `sudo ln -s /usr/local/opt/libspotify/lib/libspotify.12.1.51.dylib /usr/local/opt/libspotify/lib/libspotify`
+
+## Api
+Firebase nodes and their uses. Plase note that [arrays are a bit special in Firebase](https://www.firebase.com/blog/2014-04-28-best-practices-arrays-in-firebase.html)
+
+- **player**
+  - **current_track** _read-only_ Uri to the currently playing track
+  - **playing** _read/write_ Boolean showing current status (playing/paused)
+  - **next** _write_ Boolean. Set to true to skip to next track in queue/playlist. Will be set to false again as soon the player has changed track.
+- **playlist**
+  - **uri** _read/write_ Uri to the current playlist/album. Set to a new value to change playlist/album.
+  - **shuffle** _read/write_ Boolean to controll shuffle on/off for the current playlist.
+  - **name** _read-only_ Name of the current playlist.
+  - **tracks** _read-only_ Array of Uri:s of the current playlist’s tracks.
+- **queue** _read/write_ Array of objects with an **uri** property. Add to enqueue new track, remove to drop a track from the queue.
 
 ## Web client
 Use [spotbot-client](https://github.com/himynameisjonas/spotbot-client) for an easy way to controll the player
