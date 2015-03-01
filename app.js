@@ -11,6 +11,7 @@ var playlist = require("./lib/playlist")(spotify);
 var player = require("./lib/player")(spotify, queue, playlist);
 
 process.on("SIGINT", function () {
+  player.stop();
   console.log("Logging out");
   spotify.logout();
 });
