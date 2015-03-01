@@ -34,7 +34,9 @@ See [node-spotify](https://github.com/FrontierPsychiatrist/node-spotify/blob/v0.
 Firebase nodes and their uses. Plase note that [arrays are a bit special in Firebase](https://www.firebase.com/blog/2014-04-28-best-practices-arrays-in-firebase.html)
 
 - **player**
-  - **current_track** _read-only_ Uri to the currently playing track
+  - **current_track**
+    - **uri** _read-only_ Uri to the currently playing track
+    - **started_at** _read-only_ timestamp when the current track started playing
   - **playing** _read/write_ Boolean showing current status (playing/paused)
   - **next** _write_ Boolean. Set to true to skip to next track in queue/playlist. Will be set to false again as soon the player has changed track.
 - **playlist**
