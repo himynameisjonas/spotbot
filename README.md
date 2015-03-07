@@ -35,7 +35,7 @@ Firebase nodes and their uses. Plase note that [arrays are a bit special in Fire
 
 - **player**
   - **current_track**
-    - **uri** _read-only_ Uri to the currently playing track
+    - **uri** _read/write_ Uri to the currently playing track. Set uri to immediately change track.
     - **started_at** _read-only_ timestamp when the current track started playing
   - **playing** _read/write_ Boolean showing current status (playing/paused)
   - **next** _write_ Boolean. Set to true to skip to next track in queue/playlist. Will be set to false again as soon the player has changed track.
