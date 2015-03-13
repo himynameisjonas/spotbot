@@ -40,7 +40,7 @@ Firebase nodes and their uses. Plase note that [arrays are a bit special in Fire
   - **playing** _read/write_ Boolean showing current status (playing/paused)
   - **next** _write_ Boolean. Set to true to skip to next track in queue/playlist. Will be set to false again as soon the player has changed track.
 - **playlist**
-  - **uri** _read/write_ Uri to the current playlist/album. Set to a new value to change playlist/album.
+  - **uri** _read/write_ URI to the current playlist/album. Set to a new URI/URL to change playlist/album.
   - **shuffle** _read/write_ Boolean to controll shuffle on/off for the current playlist.
   - **name** _read-only_ Name of the current playlist.
   - **tracks** _read-only_ Array of Uri:s of the current playlist’s tracks.
