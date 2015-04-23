@@ -45,6 +45,10 @@ Firebase nodes and their uses. Plase note that [arrays are a bit special in Fire
   - **name** _read-only_ Name of the current playlist.
   - **tracks** _read-only_ Array of Uri:s of the current playlist’s tracks.
 - **queue** _read/write_ Array of objects with an **uri** property. Add to enqueue new track, remove to drop a track from the queue.
+- **volume** _read/write_ Volume as a String, 0 to 100
 
 ## Web client
 Use [spotbot-client](https://github.com/himynameisjonas/spotbot-client) for an easy way to controll the player
+
+## Volume Control
+It uses [node-loudness](https://github.com/LinusU/node-loudness) to control the systems output volume. Supports Mac Os and Linux(Alsa)
