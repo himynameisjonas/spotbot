@@ -7,7 +7,8 @@ A Spotify player with a Firebase integration. Perfect for an office where everyo
 * Set a playlist or an album as the current playlist.
 * Plays from the queue first and fallbacks to the playlist/album when the queue is empty.
 * Stores state/queue in Firebase.
-* Use a client ([spotbot-client](https://github.com/himynameisjonas/spotbot-client)) to control the player via the firebase connection.
+* Use a client ([spotbot-client](https://github.com/himynameisjonas/spotbot-client)) to control the player via your browser.
+* Last.fm scrobbling.
 
 
 ## Config/Setup
@@ -22,6 +23,16 @@ SPOTIFY_PASSWORD=yyy
 SERVER_PORT=3030
 FIREBASE_URI=https://xxxx.firebaseio.com
 ```
+
+### Optional Last.fm scrobbling
+Enable scrobbling to Last.fm by setting the following environment variables.
+```
+LASTFM_API_KEY=XXX
+LASTFM_API_SECRET=YYY
+LASTFM_USERNAME=himynameisjonas
+LASTFM_PASSWORD=xxx
+```
+Register an app on Last.fm to get the keys for `LASTFM_API_KEY` and `LASTFM_API_SECRET`.
 
 ### Install Libspotify/node-spotify
 See [node-spotify](https://github.com/FrontierPsychiatrist/node-spotify/blob/v0.7.0/README.md) for more information.
