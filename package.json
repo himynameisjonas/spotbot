@@ -13,6 +13,7 @@
     "dotenv": "^0.5.1",
     "express": "^4.11.2",
     "firebase": "^2.1.2",
+    "lodash": "^3.10.1",
     "loudness": "^0.2.2",
     "node-spotify": "^0.7.1",
     "scribble": "0.0.5"
